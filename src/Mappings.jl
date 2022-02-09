@@ -1,4 +1,4 @@
-module Mapping
+module Mappings
 
 import InverseFunctions: inverse
 import Base: inv, one, ComposedFunction
