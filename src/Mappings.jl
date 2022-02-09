@@ -1,6 +1,6 @@
 module Mapping
 
-import InverseFunctions.inverse
+import InverseFunctions: inverse
 import Base.inv
 import Base.one
 import Base.ComposedFunction
@@ -9,7 +9,7 @@ import Base.ComposedFunction
 export Mapping, AssociativeMap
 
 #export functions
-dom, image, preimage, codom, InverseFunctions.inverse, Base.inv, Base.ComposedFunction
+dom, image, preimage, codom, inverse, Base.inv, Base.ComposedFunction
 
 
 abstract type Mapping end
