@@ -21,7 +21,7 @@ preimage(m::Mapping, x) = image(inverse(m), x)
 codom(m::Mapping) = dom(inverse(m))
 
 struct IDmap <: Mapping end
-(m:IDmap)(x) = identity
+(m:IDmap)(x) = identity(x)
 one(m::Mapping) = IDmap
 
 struct AssociativeMap <: Mapping
