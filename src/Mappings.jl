@@ -15,7 +15,7 @@ abstract type Mapping end
 (m::Mapping)(x) = applymap(m, x)
 function dom(m::Mapping) end
 image(m::Mapping) = image(m, dom(m))
-image(m::Mapping, x) = Set(m.(x))
+image(m::Mapping, x) = mapreduce(m, ∪, x)
 preimage(m::Mapping) = image(inverse(m))
 preimage(m::Mapping, x) = image(inverse(m), x)
 codom(m::Mapping) = dom(inverse(m))
