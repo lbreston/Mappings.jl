@@ -21,8 +21,8 @@ preimage(m::Mapping, x) = image(inverse(m), x)
 codom(m::Mapping) = dom(inverse(m))
 
 struct IDmap <: Mapping end
-(m:IDmap)(x) = identity(x)
-one(m::Mapping) = IDmap
+applymap(m::IDmap, x) = x
+one(m::Mapping) = IDmap()
 
 struct AssociativeMap <: Mapping
     amap::Dict
@@ -31,7 +31,7 @@ end
 
 AssociativeMap(amap) = AssociativeMap(amap, invert(amap))
 dom(m::AssociativeMap) = Set(keys(m.amap))
-Inversefunctions.inverse(m::AssociativeMap) = AssociativeMap(m.inv_amap, m.amap)
+inverse(m::AssociativeMap) = AssociativeMap(m.inv_amap, m.amap)
 inv(m::AssociativeMap) = inverse(m)
 applymap(m::AssociativeMap, x) = m.amap[x]
 
