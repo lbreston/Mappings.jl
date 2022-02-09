@@ -48,8 +48,8 @@ function invert(D::Dict)
 end
 
 function compose(Outer::AssociativeMap, Inner::AssociativeMap)
-    @assert dom(Outer) ⊆ codom(Inner) "Incompatible mappings"
-    AssociativeMap(Dict(zip(dom(Inner), Outer.(Inner.(dom(Inner))))))
+    jointdom = dom(Outer) ∩ codom(Inner) |> x->preimage(Inner, x)
+    AssociativeMap(Dict(zip(jointdom, Outer.(Inner.(jointdom)))))
 end
 
 ComposedFunction(Outer::AssociativeMap, Inner::AssociativeMap) = compose(Outer, Inner) 
