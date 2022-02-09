@@ -9,7 +9,7 @@ import Base.ComposedFunction
 export Mapping, AssociativeMap
 
 #export functions
-dom, image, preimage, codom, inverse, Base.inv, Base.ComposedFunction
+export dom, image, preimage, codom, inverse, Base.inv, Base.ComposedFunction
 
 
 abstract type Mapping end
