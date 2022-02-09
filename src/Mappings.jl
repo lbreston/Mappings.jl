@@ -1,18 +1,17 @@
 module Mapping
 
 import InverseFunctions: inverse
-import Base.inv
-import Base.one
-import Base.ComposedFunction
+import Base: inv, one, ComposedFunction
 
 #export types
 export Mapping, AssociativeMap
 
 #export functions
-export dom, image, preimage, codom, inverse, Base.inv, Base.ComposedFunction
+export dom, image, preimage, codom, inverse, inv, ComposedFunction
 
 
 abstract type Mapping end
+
 (m::Mapping)(x) = applymap(m, x)
 function dom(m::Mapping) end
 image(m::Mapping) = image(m, dom(m))
@@ -33,7 +32,7 @@ end
 AssociativeMap(amap) = AssociativeMap(amap, invert(amap))
 dom(m::AssociativeMap) = Set(keys(m.amap))
 Inversefunctions.inverse(m::AssociativeMap) = AssociativeMap(m.inv_amap, m.amap)
-Base.inv(m::AssociativeMap) = inverse(m)
+inv(m::AssociativeMap) = inverse(m)
 applymap(m::AssociativeMap, x) = m.amap[x]
 
 function invert(D::Dict)
@@ -53,8 +52,6 @@ function compose(Outer::AssociativeMap, Inner::AssociativeMap)
     AssociativeMap(Dict(zip(dom(Inner), Outer.(Inner.(dom(Inner))))))
 end
 
-Base.ComposedFunction(Outer::AssociativeMap, Inner::AssociativeMap) = compose(Outer, Inner)
-
-
+ComposedFunction(Outer::AssociativeMap, Inner::AssociativeMap) = compose(Outer, Inner) 
 
 end
