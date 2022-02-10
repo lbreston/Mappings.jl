@@ -14,17 +14,21 @@ inv(m::AssociativeMap) = inverse(m)
 applymap(m::AssociativeMap, x) = m.amap[x]
 
 
+
 function invert(D::Dict)
     invD = Dict()
     for k in keys(D)
         if D[k] in keys(invD)
-            invD[D[k]] = isa(invD[D[k]], Set) ? (invD[D[k]],) ∪ Set((k,)) : Set((invD[D[k]],)) ∪ Set((k,))
+            # invD[D[k]] = isa(invD[D[k]], Set) ? (invD[D[k]],) ∪ Set((k,)) : Set((invD[D[k]],)) ∪ Set((k,))
+            push!(invD[D[k]], k)
         else
-            invD[D[k]] = k
+            invD[D[k]] = [k]
         end
     end
-    return Dict(collect(invD))
+    f(x) = length(x) == 1 ? x[1] : Set(x)
+    return Dict([(f(k), f(v)) for (k,v) in invD])
 end
+
 
 # function Base.insert!(m::AssociativeMap, newpair)
 #     k = newpair[1]
