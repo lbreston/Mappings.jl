@@ -14,7 +14,7 @@ inv(m::AssociativeMap) = inverse(m)
 applymap(m::AssociativeMap, x) = m.amap[x]
 
 function invert(D::Dict)
-    f(v) = collect(keys(D))[values(D).==v] |> Set |> x -> length(x) == 1 ? only(x) : x
+    f(v) = collect(keys(D))[values(D).==v] |> x->Set((x),) |> x -> length(x) == 1 ? only(x) : x
     return Dict{valtype(D), Union{Set{keytype(D)}, keytype(D)}}((v, f(v)) for v in unique(values(D)))
 end
 
