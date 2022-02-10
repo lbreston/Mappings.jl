@@ -1,25 +1,33 @@
+
 using Mappings
 
 using Test
 v = collect(1:1:26)
 v
-D1 = Dict(zip('A':'Z', v))
-D2 = Dict(zip(v, rand(26)))
+D1 = Dict(zip('A':'Z',v))
+D2 = Dict(zip(v,rand(26)))
 m1 = AssociativeMap(D1)
 m2 = AssociativeMap(D2)
 
-image(m1, 'A':'D')
+m1.amap
+image(m1,('A', 'B'))
 codom(m1)
 dom(m2)
 dom(m2)
 codom(m1)
+inverse(m1)
+inverse(inverse(m1))
 
-m2 ∘ m1
-image(m1)
-m = AssociativeMap(D1)
+m1('A')
+
+m1 ∘ m2
+
+
+
+
 inverse(m)
 preimage(m1)
-image(Inner, x)
+
 
 invert(m.amap)
 

@@ -3,15 +3,36 @@ struct AssociativeMap <: Mapping
     inv_amap::Dict
 end
 
-AssociativeMap(amap::Dict{T}) where T    = AssociativeMap(amap, invert(amap))
+function AssociativeMap(amap::Dict{S,T}) where {S,T}
+    f(x) = Set((x,))
+    if !(S <: Set)
+        if !(T <: Set)
+            amap = Dict((f.(keys(amap)) .=> f.(values(amap))))
+            AssociativeMap(amap, invert(amap))
+        else
+            amap = Dict((f.(keys(amap)) .=> values(amap)))
+            AssociativeMap(amap, invert(amap))
+        end
+    else
+        if !(T <: Set)
+            amap = Dict((keys(amap) .=> f.(values(amap))))
+            AssociativeMap(amap, invert(amap))
+        else
+            amap = Dict((keys(amap) .=> values(amap)))
+            AssociativeMap(amap, invert(amap))
+        end
+    end
+end
+
+
 AssociativeMap(keys::Union{AbstractSet}, vals::Union{AbstractSet}) = AssociativeMap(Dict(zip(keys, vals)))
 AssociativeMap(f::Function, d) = AssociativeMap(Dict([(x, f(x)) for x in d]))
 
 
-dom(m::AssociativeMap) = Set(keys(m.amap))
+dom(m::AssociativeMap) = reduce(∪, keys(m.amap))
 inverse(m::AssociativeMap) = AssociativeMap(m.inv_amap, m.amap)
 inv(m::AssociativeMap) = inverse(m)
-applymap(m::AssociativeMap, x) = m.amap[x]
+applymap(m::AssociativeMap, x) = m.amap[Set((x,))]
 
 
 
@@ -26,6 +47,10 @@ function invert(D::Dict)
     end
     return invD
 end
+
+Base.ComposedFunction{AssociativeMap, AssociativeMap} <: Core.Function
+Base.ComposedFunction{AssociativeMap, Funcation} <: Core.Function
+Base.ComposedFunction{Function, AssociativeMap} <: Core.Function
 
 
 # function Base.insert!(m::AssociativeMap, newpair)
@@ -43,20 +68,3 @@ end
 #     end
 #     return m
 # end
-
-
-function compose(Outer::AssociativeMap, Inner::AssociativeMap)
-    dom(Outer) ∩ codom(Inner) |> x -> preimage(Inner, x) |> x -> AssociativeMap(Dict(zip(x, image(Outer, image(Inner, x)))))
-end
-function wrapfun_left(f::Function, m::AssociativeMap)::AssociativeMap
-    AssociativeMap(f, collect(codom(m)))
-end
-
-
-ComposedFunction(Outer::AssociativeMap, Inner::AssociativeMap) = compose(Outer, Inner)
-ComposedFunction(Outer::Function, Inner::AssociativeMap) = ComposedFunction(wrapfun_left(Outer, Inner), Inner)
-
-
-
-
-
