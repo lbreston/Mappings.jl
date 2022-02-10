@@ -25,8 +25,8 @@ function invert(D::Dict)
             invD[D[k]] = [k]
         end
     end
-    f(x) = length(x) == 1 ? x[1] : Set(x)
-    return Dict([(f(k), f(v)) for (k,v) in invD])
+   
+    return Dict(collect(invD))
 end
 
 
