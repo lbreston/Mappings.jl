@@ -49,7 +49,7 @@ function invert(D::Dict)
 end
 
 Base.ComposedFunction{AssociativeMap, AssociativeMap} <: Core.Function
-Base.ComposedFunction{AssociativeMap, Funcation} <: Core.Function
+Base.ComposedFunction{AssociativeMap, Function} <: Core.Function
 Base.ComposedFunction{Function, AssociativeMap} <: Core.Function
 
 
