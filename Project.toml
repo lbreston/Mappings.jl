@@ -4,6 +4,7 @@ authors = ["Leo Breston <leo.breston@gmail.com> and contributors"]
 version = "0.1.0"
 
 [deps]
+BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
 CompositeTypes = "b152e2b5-7a66-4b01-a709-34e65c35f657"
 DomainSets = "5b8099bc-c8ec-5219-889f-1d9e522a28bf"
 IntervalSets = "8197267c-284f-5f27-9208-e0e47529a953"

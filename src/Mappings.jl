@@ -16,7 +16,7 @@ export Mapping, AssociativeMap
 export dom, image, preimage, codom, inverse, inv, ComposedFunction, compose
 
 
-abstract type Mapping <: Function end
+abstract type Mapping  end
 (m::Mapping)(x) = applymap(m, x)
 function dom(m::Mapping) end
 image(m::Mapping) = image(m, dom(m))
