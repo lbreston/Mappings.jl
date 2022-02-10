@@ -1,7 +1,7 @@
 using Mappings
 using Test
 
-D1 = Dict([(x, rand(1000)) for x in 'A':'Z'])
+D1 = Dict([(x, rand(10)) for x in 'A':'Z'])
 m = AssociativeMap(D1)
 inverse(m)
 
@@ -10,8 +10,7 @@ inverse(m)
 using BenchmarkTools
 m.(Set(('A', 'B', 'C')))
 Set(m.(['A', 'B', 'C']))
-
-@benchmark (collect(D1))
+[(k,v) for (k,v) in collect(D1)]
 
 
 
