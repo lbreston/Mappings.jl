@@ -13,7 +13,7 @@ export Domain
 export Mapping, AssociativeMap
 
 #export functions
-export dom, image, preimage, codom, inverse, inv, ComposedFunction, insert!
+export dom, image, preimage, codom, inverse, inv, insert!
 
 
 abstract type Mapping end
