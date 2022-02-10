@@ -4,7 +4,7 @@ struct AssociativeMap <: Mapping
 end
 
 AssociativeMap(amap::Dict) = AssociativeMap(amap, invert(amap))
-AssociativeMap(keys::Union{Array,Set}, vals::Union{Array, Set}) = AssociativeMap(Dict(zip(keys, vals)))
+AssociativeMap(keys::Union{Array,Set}, vals::Union{Array,Set}) = AssociativeMap(Dict(zip(keys, vals)))
 AssociativeMap(f::Function, d) = AssociativeMap(Dict([(x, f(x)) for x in d]))
 
 
@@ -42,10 +42,10 @@ function Base.insert!(m::AssociativeMap, newpair)
     return m
 end
 
-function compose(outer::AssociativeMap, inner::AssociativeMap)
-    dom(outer) ∩ codom(inner) |> x -> preimage(inner, x) |> x -> AssociativeMap(Dict(zip(x, outer.(inner.(x)))))
+function compose(Outer::AssociativeMap, Inner::AssociativeMap)
+    dom(Outer) ∩ codom(Inner) |> x -> preimage(Inner, x) |> x -> AssociativeMap(Dict(zip(x, Outer.(Inner.(x)))))
 end
 
-ComposedFunction(outer::AssociativeMap, inner::AssociativeMap)(args...; kw...) === outer(inner(args...; kw...))
+ComposedFunction(Outer::AssociativeMap, Inner::AssociativeMap) = compose(Outer, Inner) 
 
 
