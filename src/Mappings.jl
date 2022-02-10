@@ -1,7 +1,7 @@
 module Mappings
 
 import InverseFunctions: inverse
-import Base: inv, one, ComposedFunction
+# import Base: inv, one
 
 import IntervalSets
 export Interval
@@ -13,8 +13,7 @@ export Domain
 export Mapping, AssociativeMap
 
 #export functions
-export dom, image, preimage, codom, inverse, inv, ComposedFunction
-
+export dom, image, preimage, codom, inverse, inv
 
 abstract type Mapping end
 (m::Mapping)(x) = applymap(m, x)
