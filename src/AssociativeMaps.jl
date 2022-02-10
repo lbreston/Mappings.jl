@@ -46,8 +46,15 @@ end
 function compose(Outer::AssociativeMap, Inner::AssociativeMap)
     dom(Outer) ∩ codom(Inner) |> x -> preimage(Inner, x) |> x -> AssociativeMap(Dict(zip(x, Outer.(Inner.(x)))))
 end
+function wrapfun_left(f::Function, m::AssociativeMap)::AssociativeMap
+    AssociativeMap(f, codom(m))
+end
 
-ComposedFunction(Outer::AssociativeMap, Inner::AssociativeMap) = compose(Outer, Inner) 
+
+ComposedFunction(Outer::AssociativeMap, Inner::AssociativeMap) = compose(Outer, Inner)
+ComposedFunction(Outer::Function, Inner::AssociativeMap) = ComposedFunction(wrapfun_left(Outer, Inner), Inner)
+
+
 
 
 

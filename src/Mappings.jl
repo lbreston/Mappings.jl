@@ -16,11 +16,11 @@ export Mapping, AssociativeMap
 export dom, image, preimage, codom, inverse, inv, ComposedFunction, compose
 
 
-abstract type Mapping end
+abstract type Mapping <: Function end
 (m::Mapping)(x) = applymap(m, x)
 function dom(m::Mapping) end
 image(m::Mapping) = image(m, dom(m))
-image(m::Mapping, x) = mapreduce(m, ∪, x)
+image(m::Mapping, x) = Set(m.(x))
 
 #optional
 preimage(m::Mapping) = image(inverse(m))
