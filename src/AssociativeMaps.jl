@@ -3,8 +3,8 @@ struct AssociativeMap <: Mapping
     inv_amap::Dict
 end
 
-AssociativeMap(amap::Dict) = AssociativeMap(amap, invert(amap))
-AssociativeMap(keys::Union{Array,Set}, vals::Union{Array,Set}) = AssociativeMap(Dict(zip(keys, vals)))
+AssociativeMap(amap::Dict{T}) where T    = AssociativeMap(amap, invert(amap))
+AssociativeMap(keys::Union{AbstractSet}, vals::Union{AbstractSet}) = AssociativeMap(Dict(zip(keys, vals)))
 AssociativeMap(f::Function, d) = AssociativeMap(Dict([(x, f(x)) for x in d]))
 
 
@@ -19,14 +19,12 @@ function invert(D::Dict)
     invD = Dict()
     for k in keys(D)
         if D[k] in keys(invD)
-            # invD[D[k]] = isa(invD[D[k]], Set) ? (invD[D[k]],) ∪ Set((k,)) : Set((invD[D[k]],)) ∪ Set((k,))
             push!(invD[D[k]], k)
         else
             invD[D[k]] = [k]
         end
     end
-   
-    return Dict(collect(invD))
+    return invD
 end
 
 
@@ -48,10 +46,10 @@ end
 
 
 function compose(Outer::AssociativeMap, Inner::AssociativeMap)
-    dom(Outer) ∩ codom(Inner) |> x -> preimage(Inner, x) |> x -> AssociativeMap(Dict(zip(x, Outer.(Inner.(x)))))
+    dom(Outer) ∩ codom(Inner) |> x -> preimage(Inner, x) |> x -> AssociativeMap(Dict(zip(x, image(Outer, image(Inner, x)))))
 end
 function wrapfun_left(f::Function, m::AssociativeMap)::AssociativeMap
-    AssociativeMap(f, codom(m))
+    AssociativeMap(f, collect(codom(m)))
 end
 
 
