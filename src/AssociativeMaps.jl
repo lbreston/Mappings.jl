@@ -42,10 +42,10 @@ function Base.insert!(m::AssociativeMap, newpair)
     return m
 end
 
-function compose(Outer::AssociativeMap, Inner::AssociativeMap)
-    dom(Outer) ∩ codom(Inner) |> x -> preimage(Inner, x) |> x -> AssociativeMap(Dict(zip(x, Outer.(Inner.(x)))))
+function compose(outer::AssociativeMap, inner::AssociativeMap)
+    dom(outer) ∩ codom(inner) |> x -> preimage(inner, x) |> x -> AssociativeMap(Dict(zip(x, outer.(inner.(x)))))
 end
 
-# ComposedFunction(outer::AssociativeMap, inner::AssociativeMap)(args...; kw...) === outer(inner(args...; kw...))
+ComposedFunction(outer::AssociativeMap, inner::AssociativeMap)(args...; kw...) === outer(inner(args...; kw...))
 
 
