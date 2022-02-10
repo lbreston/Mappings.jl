@@ -13,10 +13,34 @@ inverse(m::AssociativeMap) = AssociativeMap(m.inv_amap, m.amap)
 inv(m::AssociativeMap) = inverse(m)
 applymap(m::AssociativeMap, x) = m.amap[x]
 
+
 function invert(D::Dict)
-    f(v) = collect(keys(D))[values(D).==v] |> x->Set((x),) |> x -> length(x) == 1 ? only(x) : x
-    return Dict{valtype(D), Union{Set{keytype(D)}, keytype(D)}}((v, f(v)) for v in unique(values(D)))
+    invD = Dict{valtype(D), Union{keytype(D), Set{keytype(D)}}}()
+    for k in keys(D)
+        if D[k] in keys(invD)
+            invD[D[k]] = isa(invD[D[k]], Set) ? (invD[D[k]],) ∪ Set((k,)) : Set((invD[D[k]],)) ∪ Set((k,))
+        else
+            invD[D[k]] = k
+        end
+    end
+    return invD
 end
+
+# function Base.insert!(m::AssociativeMap, newpair)
+#     k = newpair[1]
+#     v = newpair[2]
+#     if k in keys(m.amap)
+#         m.amap[k] = m.amap[k] ∪ Set((v,))
+#     else
+#         m.amap[k] = v
+#     end
+#     if m.amap[k] in keys(m.inv_amap)
+#         m.inv_amap[m.amap[k]] = m.amap[k] ∪ Set((v,))
+#     else
+#         m.inv_amap[m.amap[k]] = Set((k,))
+#     end
+#     return m
+# end
 
 
 function compose(Outer::AssociativeMap, Inner::AssociativeMap)
