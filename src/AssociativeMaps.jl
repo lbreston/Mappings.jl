@@ -48,9 +48,9 @@ function invert(D::Dict)
     return invD
 end
 
-Base.ComposedFunction{AssociativeMap, AssociativeMap} <: Core.Function
-Base.ComposedFunction{AssociativeMap, Function} <: Core.Function
-Base.ComposedFunction{Function, AssociativeMap} <: Core.Function
+# Base.ComposedFunction{AssociativeMap, AssociativeMap} <: Core.Function
+# Base.ComposedFunction{AssociativeMap, Function} <: Core.Function
+# Base.ComposedFunction{Function, AssociativeMap} <: Core.Function
 
 
 # function Base.insert!(m::AssociativeMap, newpair)
