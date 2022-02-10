@@ -15,7 +15,7 @@ applymap(m::AssociativeMap, x) = m.amap[x]
 
 
 function invert(D::Dict)
-    invD = Dict{valtype(D), Union{keytype(D), Set{keytype(D)}}}()
+    invD = Dict()
     for k in keys(D)
         if D[k] in keys(invD)
             invD[D[k]] = isa(invD[D[k]], Set) ? (invD[D[k]],) ∪ Set((k,)) : Set((invD[D[k]],)) ∪ Set((k,))
@@ -23,7 +23,7 @@ function invert(D::Dict)
             invD[D[k]] = k
         end
     end
-    return invD
+    return Dict(collect(invD))
 end
 
 # function Base.insert!(m::AssociativeMap, newpair)
