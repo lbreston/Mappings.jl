@@ -9,8 +9,9 @@ D2 = Dict(zip(v,rand(26)))
 m1 = AssociativeMap(D1)
 m2 = AssociativeMap(D2)
 
+import Base.HasLength
 m1.amap
-image(m1,('A', 'B'))
+image(m1,'A')
 codom(m1)
 dom(m2)
 dom(m2)
@@ -22,8 +23,9 @@ m1('A')
 
 m1 ∘ m2
 
+image(d)
 
-
+image(m1,'A')
 
 inverse(m)
 preimage(m1)

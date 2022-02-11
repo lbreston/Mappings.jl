@@ -3,6 +3,7 @@ struct AssociativeMap <: Mapping
     inv_amap::Dict
 end
 
+
 function AssociativeMap(amap::Dict{S,T}) where {S,T}
     f(x) = Set((x,))
     if !(S <: Set)
@@ -25,11 +26,12 @@ function AssociativeMap(amap::Dict{S,T}) where {S,T}
 end
 
 
-AssociativeMap(keys::Union{AbstractSet}, vals::Union{AbstractSet}) = AssociativeMap(Dict(zip(keys, vals)))
-AssociativeMap(f::Function, d) = AssociativeMap(Dict([(x, f(x)) for x in d]))
+
+# AssociativeMap(f::Function, d) = AssociativeMap(Dict([(x, f(x)) for x in d]))
 
 
-dom(m::AssociativeMap) = reduce(∪, keys(m.amap))
+dom(m::AssociativeMap) = Set(collect(keys(m.amap)))
+image(m::AssociativeMap) = dom(inverse(m))
 inverse(m::AssociativeMap) = AssociativeMap(m.inv_amap, m.amap)
 inv(m::AssociativeMap) = inverse(m)
 applymap(m::AssociativeMap, x) = m.amap[Set((x,))]

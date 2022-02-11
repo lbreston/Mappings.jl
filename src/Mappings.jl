@@ -1,13 +1,8 @@
 module Mappings
 
 import InverseFunctions: inverse
-# import Base: inv, one
+import Base: HasLength, inv
 
-import IntervalSets
-export Interval
-
-import DomainSets: Domain
-export Domain
 
 #export types
 export Mapping, AssociativeMap
@@ -15,11 +10,18 @@ export Mapping, AssociativeMap
 #export functions
 export dom, image, preimage, codom, inverse, inv
 
+
 abstract type Mapping end
 (m::Mapping)(x) = applymap(m, x)
 function dom(m::Mapping) end
-_image(m::Mapping, x) = reduce(∪, m.(x))
-image(m::Mapping, x) = _image(m, x)
+function image(m::Mapping, x) 
+    if HasLength(x) || length(x) <=1
+        return m(x)
+    else
+        return Set(unique(m.(x)))
+    end
+end
+
 image(m::Mapping) = image(m, dom(m))
 preimage(m::Mapping) = image(inverse(m))
 preimage(m::Mapping, x) = image(inverse(m), x)
